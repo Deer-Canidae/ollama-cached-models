@@ -12,6 +12,7 @@ MISTRAL_RETURN_CODE=$?
 if [ "$MISTRAL_RETURN_CODE" -ne "0" ] ; then
     echo "Mistral failed to pull. Exiting."
     kill $OLLAMA_PID
+    wait
     exit 1
 fi
 
@@ -22,8 +23,10 @@ STABLE_CODE_RETURN_CODE=$?
 if [ "$STABLE_CODE_RETURN_CODE" -ne "0" ] ; then
     echo "Stable code failed to pull. Exiting."
     kill $OLLAMA_PID
+    wait
     exit 1
 fi
 
 kill $OLLAMA_PID
+wait
 exit 0
