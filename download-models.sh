@@ -5,28 +5,31 @@ ollama start < /dev/null > /dev/null 2>&1 &
 OLLAMA_PID=$!
 sleep 1s
 
-#For general uses
-ollama pull mistral:instruct
-MISTRAL_RETURN_CODE=$?
-
-if [ "$MISTRAL_RETURN_CODE" -ne "0" ] ; then
-    echo "Mistral failed to pull. Exiting."
+#Quick gracefully with return code
+quit() {
     kill $OLLAMA_PID
     wait
-    exit 1
-fi
+    exit $1
+}
+
+#Pull specified model
+pull() {
+    ollama pull $1
+    RETURN_CODE=$?
+    if [ $RETURN_CODE -ne "0" ]; then
+        echo "$1 failed to pull"
+        quit 1
+    fi
+}
 
 #For use with coder-llama
 ollama pull stable-code:3b-code-q4_0
-STABLE_CODE_RETURN_CODE=$?
 
-if [ "$STABLE_CODE_RETURN_CODE" -ne "0" ] ; then
-    echo "Stable code failed to pull. Exiting."
-    kill $OLLAMA_PID
-    wait
-    exit 1
-fi
+#For general uses
+pull mistral:instruct
 
-kill $OLLAMA_PID
-wait
-exit 0
+#Experimenting with gemma
+pull gemma:2b-instruct
+
+#Quit successfully
+quit 0
