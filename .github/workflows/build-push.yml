@@ -3,8 +3,8 @@ run-name: Building the image and pushing it to DockerHub.
 on:
   push:
     branches: [main]
-  worflow_dispatch:
-  
+  workflow_dispatch:
+
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
