@@ -28,9 +28,6 @@ ollama pull stable-code:3b-code-q4_0
 #For general uses
 pull mistral:instruct
 
-#Gemma for quick answers
-pull gemma:2b-instruct
-
 #Experimenting with dolphin-mistral
 pull dolphin-mistral:latest
 
